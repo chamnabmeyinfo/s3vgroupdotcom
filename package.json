@@ -8,7 +8,12 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel:deploy": "vercel --prod",
+    "vercel:preview": "vercel",
+    "vercel:logs": "vercel logs",
+    "vercel:env": "vercel env ls",
+    "vercel:env:pull": "vercel env pull .env.local"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
