@@ -11,7 +11,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Category {
@@ -104,4 +103,45 @@ enum QuoteStatus {
   IN_PROGRESS
   RESOLVED
   CLOSED
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  title     String
+  bio       String?
+  photo     String?
+  email     String?
+  phone     String?
+  linkedin  String?
+  priority  Int      @default(0)
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([priority])
+  @@map("team_members")
+}
+
+model PortfolioProject {
+  id             String    @id @default(cuid())
+  title          String
+  slug           String    @unique
+  industry       String
+  client         String?
+  description    String?
+  challenge      String?
+  solution       String?
+  results        String?
+  heroImage      String?
+  images         String[]
+  completionDate DateTime?
+  status         String    @default("DRAFT")
+  priority       Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@map("portfolio_projects")
 }
