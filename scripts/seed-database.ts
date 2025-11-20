@@ -3,9 +3,10 @@
  * Run this locally: npx tsx scripts/seed-database.ts
  */
 
-import { PrismaClient } from "../src/generated/prisma/client";
+import "dotenv/config";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient({});
+const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Starting database seed...\n");

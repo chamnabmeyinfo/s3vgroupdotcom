@@ -1,15 +1,13 @@
 -- S3V Trading Group - Manual Database Seed
 -- Run this AFTER the migration SQL in Supabase SQL Editor
 
--- Insert Categories
-INSERT INTO "categories" ("id", "name", "slug", "description", "icon", "priority", "created_at", "updated_at")
-VALUES
-  ('cat-1', 'Truck Scale', 'truck-scale', 'Heavy-duty weighing systems for vehicles and cargo', '🚛', 100, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  ('cat-2', 'Digital Scale', 'digital-scale', 'Precision scales for various applications', '⚖️', 90, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  ('cat-3', 'Racking System', 'racking-system', 'Storage solutions and warehouse racking', '📦', 80, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  ('cat-4', 'Lifting Equipment', 'lifting-equipment', 'Forklifts, stackers, and material handling', '🏗️', 70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  ('cat-5', 'Plastic Solutions', 'plastic-solutions', 'Pallets, baskets, and plastic products', '🧺', 60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-ON CONFLICT ("slug") DO NOTHING;
+-- Check what columns exist first
+SELECT column_name, data_type 
+FROM information_schema.columns 
+WHERE table_name = 'categories';
+
+-- If the check shows columns exist, run the insert
+-- Note: Adjust column names based on actual schema
 
 -- Insert Products
 INSERT INTO "products" ("id", "name", "slug", "sku", "summary", "description", "category_id", "price", "status", "highlights", "hero_image", "specs", "created_at", "updated_at")
