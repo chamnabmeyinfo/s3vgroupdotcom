@@ -42,4 +42,10 @@ next-env.d.ts
 
 /src/generated/prisma
 
+# Prisma seed files (use SQL scripts instead)
+prisma/seed.ts
+prisma/seed.js
+scripts/seed-*.ts
+scripts/seed-*.js
+
 .vercel
