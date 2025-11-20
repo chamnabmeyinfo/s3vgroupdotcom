@@ -42,9 +42,9 @@ export function RecentQuotes() {
   }, []);
 
   const getStatusVariant = (status: string) => {
-    const variants: Record<string, "default" | "success" | "info" | "warning"> = {
+    const variants: Record<string, "default" | "success" | "secondary" | "warning"> = {
       NEW: "warning",
-      IN_PROGRESS: "info",
+      IN_PROGRESS: "secondary",
       RESOLVED: "success",
       CLOSED: "default",
     };
