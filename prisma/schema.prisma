@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  icon        String?
+  priority    Int       @default(0)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+  @@map("categories")
+}
+
+model Product {
+  id          String          @id @default(cuid())
+  name        String
+  slug        String          @unique
+  sku         String?
+  summary     String?
+  description String?
+  specs       Json?
+  heroImage   String?
+  price       Decimal?        @db.Decimal(12, 2)
+  status      ProductStatus   @default(DRAFT)
+  highlights  String[]
+  categoryId  String
+  category    Category        @relation(fields: [categoryId], references: [id])
+  media       ProductMedia[]
+  tags        ProductTag[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@map("products")
+}
+
+model ProductMedia {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  featured  Boolean  @default(false)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@map("product_media")
+}
+
+model ProductTag {
+  id        String  @id @default(cuid())
+  label     String
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@unique([productId, label])
+  @@map("product_tags")
+}
+
+model QuoteRequest {
+  id          String       @id @default(cuid())
+  companyName String
+  contactName String
+  email       String
+  phone       String?
+  message     String?
+  items       Json?
+  status      QuoteStatus  @default(NEW)
+  source      String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([email])
+  @@map("quote_requests")
+}
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum QuoteStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
