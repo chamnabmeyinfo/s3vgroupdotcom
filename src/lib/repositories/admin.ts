@@ -2,30 +2,50 @@ import { getPrismaClient } from "@/lib/prisma";
 
 export async function getAllProducts() {
   const prisma = await getPrismaClient();
-  if (!prisma) return [];
+  if (!prisma) {
+    console.warn("[admin] Prisma client not available. Check DATABASE_URL environment variable.");
+    return [];
+  }
 
   try {
-    return await prisma.product.findMany({
+    const products = await prisma.product.findMany({
       include: { category: true, tags: true },
       orderBy: { updatedAt: "desc" },
     });
-  } catch (error) {
-    console.error("[admin] Failed to fetch products", error);
+    if (products.length === 0) {
+      console.info("[admin] No products found in database. Database may be empty.");
+    } else {
+      console.log(`[admin] Successfully fetched ${products.length} products`);
+    }
+    return products;
+  } catch (error: any) {
+    console.error("[admin] Failed to fetch products:", error?.message || error);
+    console.error("[admin] Error details:", error);
     return [];
   }
 }
 
 export async function getAllCategories() {
   const prisma = await getPrismaClient();
-  if (!prisma) return [];
+  if (!prisma) {
+    console.warn("[admin] Prisma client not available. Check DATABASE_URL environment variable.");
+    return [];
+  }
 
   try {
-    return await prisma.category.findMany({
+    const categories = await prisma.category.findMany({
       include: { products: true },
       orderBy: { priority: "desc" },
     });
-  } catch (error) {
-    console.error("[admin] Failed to fetch categories", error);
+    if (categories.length === 0) {
+      console.info("[admin] No categories found in database. Database may be empty.");
+    } else {
+      console.log(`[admin] Successfully fetched ${categories.length} categories`);
+    }
+    return categories;
+  } catch (error: any) {
+    console.error("[admin] Failed to fetch categories:", error?.message || error);
+    console.error("[admin] Error details:", error);
     return [];
   }
 }

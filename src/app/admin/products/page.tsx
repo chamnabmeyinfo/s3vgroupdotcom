@@ -55,8 +55,23 @@ export default async function AdminProductsPage() {
             <tbody className="divide-y divide-gray-200">
               {products.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-sm text-gray-500">
-                    No products yet. Create your first product.
+                  <td colSpan={6} className="px-6 py-12">
+                    <div className="text-center">
+                      <p className="text-sm font-medium text-gray-700 mb-2">
+                        No products found
+                      </p>
+                      <p className="text-xs text-gray-500 mb-4">
+                        {products.length === 0 
+                          ? "Your product catalog is empty. Create your first product to get started."
+                          : "No products match your search criteria."}
+                      </p>
+                      <Link
+                        href="/admin/products/new"
+                        className="inline-flex items-center rounded-full bg-[#0b3a63] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0a2d4d]"
+                      >
+                        + Create First Product
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ) : (

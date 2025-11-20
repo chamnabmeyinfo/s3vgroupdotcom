@@ -6,6 +6,7 @@ import {
 } from "@/lib/data/mock-data";
 import { Card } from "@/components/ui/card";
 import { format } from "date-fns";
+import { DatabaseStatus } from "@/components/admin/database-status";
 
 async function getDashboardData() {
   const prisma = await getPrismaClient();
@@ -69,12 +70,44 @@ export default async function AdminDashboard() {
         </p>
       </div>
 
+      <DatabaseStatus />
+
       <div className="grid gap-4 md:grid-cols-4">
         <StatCard label="Products" value={data.productCount} />
         <StatCard label="Categories" value={data.categoryCount} />
         <StatCard label="Solutions" value={data.solutionCount} />
         <StatCard label="Quotes today" value={data.quotesToday} />
       </div>
+
+      {data.productCount === 0 && data.categoryCount === 0 && (
+        <Card className="p-6 bg-[#fef3c7] border-[#f59e0b]">
+          <div className="flex items-start gap-3">
+            <div className="flex-1">
+              <h3 className="text-sm font-semibold text-[#92400e] mb-1">
+                Database is empty
+              </h3>
+              <p className="text-sm text-[#78350f]">
+                No products or categories found. Start by creating categories, then add products.
+              </p>
+              <div className="mt-4 flex gap-2">
+                <a
+                  href="/admin/categories/new"
+                  className="text-sm font-medium text-[#0b3a63] hover:underline"
+                >
+                  + Create Category
+                </a>
+                <span className="text-[#78350f]">•</span>
+                <a
+                  href="/admin/products/new"
+                  className="text-sm font-medium text-[#0b3a63] hover:underline"
+                >
+                  + Create Product
+                </a>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
 
       <Card className="p-6">
         <div className="mb-4 flex items-center justify-between">
