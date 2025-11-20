@@ -6,8 +6,10 @@ import { QuoteForm } from "@/components/sections/quote-form";
 
 export function ContactSection() {
   return (
-    <section id="contact" className="bg-[#f5f7fa] py-20">
+    <section id="quote" className="bg-[#f5f7fa] py-20">
       <Container className="space-y-12">
+        {/* Preserve legacy #contact anchors for nav links */}
+        <span id="contact" className="sr-only" aria-hidden="true" />
         <SectionHeading
           eyebrow="Contact"
           title="Talk to an applications engineer"
